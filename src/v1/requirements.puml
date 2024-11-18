@@ -1,0 +1,60 @@
+@startuml
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+}
+
+title "Vehicle Requirements - SysML v1"
+
+class "Vehicle Requirements" <<requirement>> {
+    id = "REQ-1"
+    text = "Top level vehicle requirements"
+}
+
+class "Performance" <<requirement>> {
+    id = "REQ-1.1"
+    text = "The vehicle shall meet performance targets"
+}
+
+class "Acceleration" <<requirement>> {
+    id = "REQ-1.1.1"
+    text = "Vehicle shall accelerate 0-60 mph in < 6 sec"
+    value
+        maxTime = 6
+}
+
+class "Top Speed" <<requirement>> {
+    id = "REQ-1.1.2"
+    text = "Vehicle shall achieve top speed of 155 mph"
+    value
+        minSpeed = 155
+}
+
+class "Fuel Efficiency" <<requirement>> {
+    id = "REQ-1.2"
+    text = "The vehicle shall meet efficiency targets"
+}
+
+class "Highway MPG" <<requirement>> {
+    id = "REQ-1.2.1"
+    text = "Vehicle shall achieve 30 mpg highway"
+    value
+        minMPG = 30
+}
+
+' Test Cases
+class "AccelerationTest" <<testCase>> {
+    id = "TEST-1.1.1"
+    verifies = "REQ-1.1.1"
+}
+
+' Relationships
+"Vehicle Requirements" *-- "Performance"
+"Vehicle Requirements" *-- "Fuel Efficiency"
+"Performance" *-- "Acceleration"
+"Performance" *-- "Top Speed"
+"Fuel Efficiency" *-- "Highway MPG"
+
+"AccelerationTest" ..> "Acceleration" : verifies
+
+@enduml

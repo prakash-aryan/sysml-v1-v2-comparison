@@ -1,0 +1,36 @@
+@startuml
+skinparam state {
+    BackgroundColor White
+    BorderColor Black
+}
+
+title "Vehicle Behavior - SysML v1 State Machine"
+
+state "Vehicle States" as VehicleStates {
+    state "Off" as Off
+    
+    state "Running" as Running {
+        state "Idle" as Idle
+        
+        state "Moving" as Moving {
+            state "Accelerating" as Accelerating
+            state "Cruising" as Cruising
+            state "Braking" as Braking
+            
+            Accelerating --> Cruising : targetSpeedReached
+            Cruising --> Braking : brakePedalPressed
+            Braking --> Accelerating : acceleratorPressed
+        }
+        
+        Idle --> Moving : acceleratorPressed
+        Moving --> Idle : vehicleStopped
+    }
+    
+    Off --> Running : ignitionOn [fuelAvailable]
+    Running --> Off : ignitionOff
+}
+
+' Initial state
+[*] --> Off
+
+@enduml

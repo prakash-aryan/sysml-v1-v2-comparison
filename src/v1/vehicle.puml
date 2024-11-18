@@ -1,0 +1,64 @@
+@startuml
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+}
+
+title "Vehicle System - SysML v1"
+
+' Block Definition
+class "Vehicle" <<block>> {
+    values
+        +mass: Real
+        +speed: Real
+        +position: Real
+    parts
+        +engine: Engine[1]
+        +transmission: Transmission[1]
+        +wheels: Wheel[4]
+    ports
+        +powerPort: PowerPort
+    constraints
+        {acceleration = power/(mass*speed)}
+}
+
+class "Engine" <<block>> {
+    values
+        +power: Real
+        +rpm: Real
+        +fuelConsumption: Real
+    ports
+        +powerOut: PowerPort
+        +fuelIn: FuelPort
+}
+
+class "Transmission" <<block>> {
+    values
+        +gearRatio: Real
+        +efficiency: Real
+    ports
+        +powerIn: PowerPort
+        +powerOut: PowerPort[4]
+}
+
+class "Wheel" <<block>> {
+    values
+        +diameter: Real
+        +friction: Real
+    ports
+        +powerIn: PowerPort
+}
+
+' Interface Blocks
+class "PowerPort" <<interfaceBlock>> {
+    flow properties
+        +torque: Real
+        +speed: Real
+}
+
+' Relationships
+Vehicle *-- "1" Engine: contains >
+Vehicle *-- "1" Transmission: contains >
+Vehicle *-- "4" Wheel: contains >
+
+@enduml
